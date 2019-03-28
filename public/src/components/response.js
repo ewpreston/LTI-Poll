@@ -6,8 +6,8 @@ const EmptyResponse = (
       <tbody>
       <tr>
         <td>Status</td>
-        <td >N/A</td>
-        <td >N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
       </tr>
       <tr>
         <td>Body</td>

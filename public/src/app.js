@@ -5,7 +5,6 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Router, Route, Link, browserHistory} from 'react-router';
 import Home from './components/home';
-import LaunchEndpoint from './components/launchEndpoint';
 import ContentItemView from './components/contentItemView';
 import CIMRequestView from './components/cimRequestView';
 import LTIAdvView from './components/ltiAdvView';
@@ -29,7 +28,6 @@ render((
   <Router history={browserHistory}>
     <Route path="/" component={Home}/>
     <Route path="/home" component={Home}/>
-    <Route path="/ltilaunchendpoint" component={LaunchEndpoint}/>
     <Route path="/content_item" component={ContentItemView}/>
     <Route path="/cim_request" component={CIMRequestView}/>
     <Route path="/lti_adv_view" component={LTIAdvView}/>
