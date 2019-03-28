@@ -78,15 +78,6 @@ module.exports = function (app) {
     }
   });
 
-  app.post('/ltilaunchendpoint', (req, res) => {
-    launchData.requestBody = req.body;
-    let redirectUrl = provider + '/ltilaunchendpoint';
-    redisUtil.redisGet(req.body.oauth_consumer_key).then((toolProxy) => {
-      launchData.toolProxy = toolProxy;
-      res.redirect(redirectUrl);
-    });
-  });
-
   //=======================================================
   // Content Item Message processing
   let passthru_req;
