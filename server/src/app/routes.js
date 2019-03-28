@@ -255,6 +255,10 @@ module.exports = function (app) {
     res.send(agPayload);
   });
 
+  app.get('/config', (req, res) => {
+    res.send(config);
+  });
+
   //=======================================================
   // Grab a token and display it
 
