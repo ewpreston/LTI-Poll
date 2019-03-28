@@ -78,75 +78,11 @@ module.exports = function (app) {
     }
   });
 
-  //=======================================================
-  // LTI 2 registration stuff
-  app.get('/toolproxy', (req, res) => {
-    redisUtil.getToolProxy().then((toolProxies) => {
-      let toolProxiesJSON = [];
-
-      toolProxies.map((toolProxy) => {
-        let toolProxyJSON = JSON.parse(toolProxy);
-        toolProxiesJSON.push(toolProxyJSON);
-      });
-
-      res.send(toolProxiesJSON);
-    });
-  });
-
-  app.get('/toolproxy/:tool_proxy_guid', (req, res) => {
-    let tool_proxy_guid = req.params.tool_proxy_guid;
-    redisUtil.redisGet(tool_proxy_guid).then((toolProxy) => {
-      res.send(toolProxy);
-    });
-  });
-
-  app.get('/launchendpointactivity', (req, res) => {
-    if (_.isEmpty(registrationData)) {
-      redisUtil.redisGet(regdata_key).then(function (regData) {
-        registrationData = regData;
-        res.send({
-          "requestBody": launchData.requestBody,
-          "registrationData": registrationData,
-          "toolProxy": launchData.toolProxy
-        });
-      });
-    } else {
-      res.send({
-        "requestBody": launchData.requestBody,
-        "registrationData": registrationData,
-        "toolProxy": launchData.toolProxy
-      });
-    }
-  });
-
-  app.get('/registrationactivity', (req, res) => {
-    // if it's empty then see if we have it in the cache
-    if (!dataLoaded) {
-      redisUtil.redisGet(regdata_key).then((regData) => {
-        registrationData = regData;
-        res.send(registrationData);
-      });
-    } else {
-      res.send(registrationData);
-    }
-  });
-
   app.post('/ltilaunchendpoint', (req, res) => {
     launchData.requestBody = req.body;
     let redirectUrl = provider + '/ltilaunchendpoint';
     redisUtil.redisGet(req.body.oauth_consumer_key).then((toolProxy) => {
       launchData.toolProxy = toolProxy;
-      res.redirect(redirectUrl);
-    });
-  });
-
-  app.post('/registration', (req, res) => {
-    registration.handleRegistrationPost(req, res, registrationData).then(() => {
-      redisUtil.redisSave(regdata_key, registrationData);
-      dataLoaded = true;
-      let redirectUrl = provider + '/tp_registration';
-
-      console.log('Redirecting to : ' + redirectUrl);
       res.redirect(redirectUrl);
     });
   });
