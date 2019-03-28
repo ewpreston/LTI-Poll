@@ -3,22 +3,18 @@ import config from "../config/config";
 import path from "path";
 import {AGPayload, ContentItem, JWTPayload, NRPayload, RegistrationData, SetupParameters} from "../common/restTypes";
 
-var registration = require('./registration.js');
 var redisUtil = require('./redisutil');
 var lti = require('./lti');
 var content_item = require('./content-item');
-var eventstore = require('./eventstore');
 let ltiAdv = require('./lti-adv');
 let deepLinking = require('./deep-linking');
 let namesRoles = require('./names-roles');
 let assignGrades = require('./assign-grades');
 
-const regdata_key = "registrationData";
 const contentitem_key = "contentItemData";
 
 module.exports = function (app) {
 
-  let registrationData = new RegistrationData();
   let dataLoaded = false;
   let provider = config.provider_domain + (config.provider_port !== "NA" ? ":" + config.provider_port : "");
   let launchData = {};
