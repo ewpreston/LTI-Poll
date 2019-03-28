@@ -286,6 +286,28 @@ module.exports = function (app) {
   });
 
   //=======================================================
+  // Test REDIS
+
+  app.get('/testRedis', (req, res) => {
+    let pollId = '1234567';
+
+    redisUtil.savePollQuestion(pollId, 'What is your favorite color');
+    console.log(redisUtil.loadPollQuestion(pollId));
+
+    let options = ['Red', 'Blue', 'Purple', 'Yellow'];
+    console.log(options);
+
+    redisUtil.savePollOptions(pollId, options);
+    console.log(redisUtil.loadPollOptions(pollId));
+
+    redisUtil.savePollAnswer(pollId, Math.floor(Math.random() * 4));
+    console.log(redisUtil.loadPollResults(pollId));
+
+    res.send('<html><body>1</body></html>');
+
+  });
+
+  //=======================================================
   // Catch all
   app.get('*', (req, res) => {
     console.log('catchall - (' + req.url + ')');
