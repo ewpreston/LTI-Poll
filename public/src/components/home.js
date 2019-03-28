@@ -4,16 +4,31 @@ import {Button, ControlLabel, FormControl, FormGroup} from "react-bootstrap";
 class LaunchEndpoint extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {request: {}};
+    this.state = {config: {}, setupData: {}};
     this.createPoll = this.createPoll.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('config')
+      .then(result => result.json())
+      .then(config => {
+        this.setState({config: config});
+        });
+
+    fetch('setupData')
+      .then(result => result.json())
+      .then(setupData => {
+        this.setState({setupData: setupData});
+      })
   }
 
   createPoll() {
     alert('Insert create poll function here');
   }
 
-
   render() {
+    const baseUrl = this.state.config.provider_domain + (this.state.config.provider_port !== 'NA' ? ':' + this.state.config.provider_port : '');
+
     return (
       <div>
         <div className="row">
@@ -32,6 +47,8 @@ class LaunchEndpoint extends React.Component {
 
         <div className="row">
           <h2>Your configuration</h2>
+          <p>LTI 1.3 Launch URL: {baseUrl}</p>
+          <p>Blackboard Client ID: {this.state.setupData.applicationId}</p>
 
         </div>
 
