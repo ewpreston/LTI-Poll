@@ -3,10 +3,7 @@ import config from "../config/config";
 import path from "path";
 import {AGPayload, ContentItem, JWTPayload, NRPayload, RegistrationData, SetupParameters} from "../common/restTypes";
 
-var crypto = require('crypto');
 var registration = require('./registration.js');
-var redis = require('redis');
-var redisClient = redis.createClient({"host": config.redis_host, "port": config.redis_port});
 var redisUtil = require('./redisutil');
 var lti = require('./lti');
 var content_item = require('./content-item');
@@ -45,18 +42,6 @@ module.exports = function (app) {
 
   //=======================================================
   // LTI 1 provider and caliper stuff
-  app.post('/caliper/send', (req, res) => {
-    lti.caliper_send(req, res);
-  });
-  app.post('/caliper/register', (req, res) => {
-    lti.caliper(req, res);
-  });
-  app.post('/caliper', (req, res) => {
-    eventstore.got_caliper(req, res);
-  });
-  app.get('/caliper', (req, res) => {
-    eventstore.show_events(req, res);
-  });
   app.post('/rest/auth', (req, res) => {
     lti.rest_auth(req, res);
   });
