@@ -15,6 +15,7 @@ import DeepLinkView from './components/deepLinkView';
 import {DeepLinkOptions} from './components/deepLinkOptions';
 import NamesRolesView from './components/namesRolesView';
 import AssignGradesView from './components/assignGradesView';
+import PollSetup from './components/pollSetup';
 
 const None = React.createClass({
   render() {
@@ -40,5 +41,6 @@ render((
     <Route path="/deep_link_options" component={DeepLinkOptions}/>
     <Route path="/names_roles_view" component={NamesRolesView}/>
     <Route path="/assign_grades_view" component={AssignGradesView}/>
+    <Route path="/poll_setup" component={PollSetup}/>
   </Router>
 ), document.getElementById('root'));
