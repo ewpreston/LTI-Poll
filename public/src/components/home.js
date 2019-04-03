@@ -1,5 +1,7 @@
 import React from "react";
-import {Button, ControlLabel, FormControl, FormGroup} from "react-bootstrap";
+import {HashRouter} from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 class LaunchEndpoint extends React.Component {
   constructor(props) {
@@ -31,33 +33,30 @@ class LaunchEndpoint extends React.Component {
 
     return (
       <div>
-        <div className="row">
-          <h2>Welcome to the LTI Polling Tool</h2>
-        </div>
-
-        <div className="row">
-            <FormGroup>
-              <Button onClick={this.createPoll}>Create Poll</Button>
-            </FormGroup>
-        </div>
-
-        <div className="row">
-          <h2>Your Polls</h2>
-        </div>
-
-        <div className="row">
-          <h2>Your configuration</h2>
-          <p>LTI 1.3 Launch URL: {baseUrl}</p>
-          <p>Blackboard Client ID: {this.state.setupData.applicationId}</p>
-
-        </div>
-
-        <div className="row">
-          For the setup page go <a href="/setup">here</a>
-        </div>
+        <HashRouter>
+        <Typography variant="h4" gutterBottom component="h2">
+          Welcome to the LTI Polling Tool
+        </Typography>
+        <Typography
+            variant="h4"
+            gutterBottom
+            component="h2">
+          Your configuration
+        </Typography>
+         <p>LTI 1.3 Launch URL: {baseUrl}</p>
+         <p>Blackboard Client ID: {this.state.setupData.applicationId}</p>
+          <div>
+          <Button
+              variant={"outlined"}
+              onClick={this.createPoll}
+              color={"primary"}
+          >
+            Create Poll</Button>
+          </div>
+        </HashRouter>
       </div>
     )
   }
 }
 
-module.exports = LaunchEndpoint;
+export default LaunchEndpoint;

@@ -52,4 +52,4 @@ class NamesRolesView extends React.Component {
   }
 }
 
-module.exports = NamesRolesView;
+export default NamesRolesView;

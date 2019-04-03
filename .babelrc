@@ -5,6 +5,8 @@
   ],
   "plugins": [
     "transform-flow-strip-types",
-    "babel-plugin-relative-import"
+    "babel-plugin-relative-import",
+    "transform-object-rest-spread",
+    "transform-class-properties"
   ]
 }

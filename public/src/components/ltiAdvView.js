@@ -61,4 +61,4 @@ class LtiAdvView extends React.Component {
   }
 }
 
-module.exports = LtiAdvView;
+export default LtiAdvView;

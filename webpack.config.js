@@ -1,7 +1,13 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
+  watch: false,
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: 1000
+  },
+  mode: 'development',
   entry: './public/src/app.js',
   output: {
     filename: 'bundle.js',
@@ -9,23 +15,22 @@ module.exports = {
   },
   devtool: 'source-map',
   module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: /public\/src/
-      }
-    ]
+    rules: [{
+      test: /\.js$/,
+      include: /public\/src/,
+      exclude: /node_modules/,
+      use: [{
+          loader: 'babel-loader',
+        }]
+    }]
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      "window.jQuery": "jquery"
-    }),
-  ],
-  resolve: {
-    alias: {
-      'node_modules': path.join(__dirname, 'node_modules'),
-      'bower_components': path.join(__dirname, 'public/bower_components')
-    }
-  }
-};
+    plugins
+:
+[
+  new webpack.ProvidePlugin({
+    "window.jQuery": "jquery"
+  }),
+]
+
+}
+;

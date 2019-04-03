@@ -6,12 +6,12 @@ import config from "./config/config.js";
 import routes from "./app/routes.js";
 import request from "request";
 import {SetupParameters} from "./common/restTypes";
-var app = express();
-var httpProxy = express();
+const app = express();
+const httpProxy = express();
 let redisUtil = require('./app/redisutil');
 
 
-var options = (config.use_ssl) ? {
+const options = (config.use_ssl) ? {
   key: fs.readFileSync('star.int.bbpd.io.key'),
   cert: fs.readFileSync('star.int.bbpd.io.crt')
 } : {key: null, cert: null};
@@ -122,6 +122,7 @@ routes(app);
 if (config.use_ssl) {
   https.createServer(options, app).listen( listenPort, function () {
     console.log("Configuring for SSL use");
+    console.log("Polling:  " + provider);
     console.log("LTI 1 Tool Provider:  " + provider + "/lti");
     console.log("LTI 1 Content Item: " + provider + "/CIMRequest");
     console.log("LTI 1.3 Launch: " + provider + "/lti13");
@@ -130,6 +131,7 @@ if (config.use_ssl) {
   });
 } else {
   app.listen(listenPort);
+  console.log("Polling:  " + provider);
   console.log("LTI 1 Tool Provider:  " + provider + "/lti");
   console.log("LTI 1 Content Item: " + provider + "/CIMRequest");
   console.log("LTI 1.3 Launch: " + provider + "/lti13");

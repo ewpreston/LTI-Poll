@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, ButtonToolbar, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {FormGroup, FormControl, FormLabel} from 'react-bootstrap';
 const EmptyResponse = (
   <div>
     <table>
@@ -28,7 +28,7 @@ class Response extends React.Component {
       return EmptyResponse;
     }
 
-    if (this.props.response.status == 404 || this.props.response.status == 400) {
+    if (this.props.response.status === 404 || this.props.response.status === 400) {
       return (
         <div>
 
@@ -43,7 +43,7 @@ class Response extends React.Component {
           </table>
         </div>
       );
-    } else if (this.props.response.status == 200) {
+    } else if (this.props.response.status === 200) {
       return (
         <div>
 
@@ -58,7 +58,7 @@ class Response extends React.Component {
           </table>
           <FormGroup>
 
-            <ControlLabel>Response Body</ControlLabel>
+            <FormLabel>Response Body</FormLabel>
             <FormControl componentClass="textarea" value={this.props.response.body} placeholder="textarea" />
 
           </FormGroup>
@@ -69,4 +69,4 @@ class Response extends React.Component {
 }
 
 
-module.exports = Response;
+export default Response;

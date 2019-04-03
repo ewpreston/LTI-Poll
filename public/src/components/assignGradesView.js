@@ -78,4 +78,4 @@ class AssignGradesView extends React.Component {
   }
 }
 
-module.exports = AssignGradesView;
+export default AssignGradesView;

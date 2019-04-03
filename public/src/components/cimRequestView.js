@@ -10,7 +10,7 @@ class CIMRequestView extends React.Component {
         </div>
 
         <div>
-          <form action="CIMRequest" method="post">
+          <form action="/CIMRequest" method="post">
             <table>
               <tbody>
               <tr><td>&nbsp;</td><td>CIM options</td></tr>
@@ -30,4 +30,4 @@ class CIMRequestView extends React.Component {
   }
 }
 
-module.exports = CIMRequestView;
+export default CIMRequestView;

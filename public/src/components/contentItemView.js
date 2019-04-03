@@ -114,4 +114,4 @@ class ContentItemView extends React.Component {
   }
 }
 
-module.exports =  ContentItemView;
+export default ContentItemView;
