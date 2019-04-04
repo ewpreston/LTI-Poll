@@ -72,7 +72,7 @@ exports.readCols = (req, res, agPayload, setup) => {
         } else {
           agPayload.body = json;
         }
-        res.redirect("/assign_grades_view");
+        res.redirect("#/assign_grades_view");
       });
     },
     function(error) {
@@ -120,7 +120,7 @@ exports.addCol = (req, res, agPayload, setup) => {
         } else {
           agPayload.body = json;
         }
-        res.redirect("/assign_grades_view");
+        res.redirect("#/assign_grades_view");
       });
     },
     function(error) {
@@ -161,7 +161,7 @@ exports.delCol = (req, res, agPayload, setup) => {
         } else {
           agPayload.body = json;
         }
-        res.redirect("/assign_grades_view");
+        res.redirect("#/assign_grades_view");
       });
     },
     function(error) {
@@ -202,7 +202,7 @@ exports.results = (req, res, agPayload, setup) => {
         } else {
           agPayload.body = json;
         }
-        res.redirect("/assign_grades_view");
+        res.redirect("#/assign_grades_view");
       });
     },
     function(error) {
@@ -254,7 +254,7 @@ exports.scores = (req, res, agPayload, setup) => {
         } else {
           agPayload.body = json;
         }
-        res.redirect("/assign_grades_view");
+        res.redirect("#/assign_grades_view");
       });
     },
     function(error) {

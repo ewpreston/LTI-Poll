@@ -118,8 +118,10 @@ class PollSetup extends React.Component {
               </FormGroup>
               <div id="container-div">{container}</div>
             </div>
+          <br/>
             <div>
               <TextField
+                  fullWidth={"true"}
                   label={"Choice"}
                   variant={"outlined"}
                   placeholder={"Enter Choice"}
@@ -128,6 +130,7 @@ class PollSetup extends React.Component {
                   InputLabelProps={{
                     shrink: true
                   }}/>
+                  <br/>
               <Button
                 onClick={() =>
                   this.addChoice(this.state.choices, this.state.newChoice)
@@ -138,7 +141,7 @@ class PollSetup extends React.Component {
             </div>
             <div>
               <Button onClick={this.cancel}>Cancel</Button>{" "}
-              <Button onClick={this.save}>Save</Button>
+              <Button type={"submit"} onClick={this.save}>Save</Button>
             </div>
           </form>
         </div>
