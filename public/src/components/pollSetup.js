@@ -80,9 +80,9 @@ class PollSetup extends React.Component {
     let container = [];
     choices.forEach((choice, index) => {
       container.push(
-        <Radio key={index} name="choiceOption" disabled={true}>
+        <div><Radio key={index} name="choiceOption" disabled={true}>
           {choice}
-        </Radio>
+        </Radio></div>
       );
       /**
              * 1. All loop generated elements require a key
@@ -128,13 +128,15 @@ class PollSetup extends React.Component {
                   InputLabelProps={{
                     shrink: true
                   }}/>
-              <Button
-                onClick={() =>
-                  this.addChoice(this.state.choices, this.state.newChoice)
-                }
-              >
-                Add Choice
-              </Button>
+              <div>
+                <Button
+                  onClick={() =>
+                    this.addChoice(this.state.choices, this.state.newChoice)
+                  }
+                >
+                  Add Choice
+                </Button>
+              </div>
             </div>
             <div>
               <Button onClick={this.cancel}>Cancel</Button>{" "}
