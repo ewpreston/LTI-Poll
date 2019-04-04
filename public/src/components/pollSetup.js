@@ -28,9 +28,7 @@ class PollSetup extends React.Component {
         });
     }
 
-    // handleResultChange(event) {
-    //     this.setState({resultText: event.target.value});
-    // }
+
     handleQuestionChange(event) {
         console.dir(`handleQuestionChange ${event.target.value}`);
         this.setState({
@@ -47,7 +45,6 @@ class PollSetup extends React.Component {
     }
 
 
-    //addChoice = () => {
     addChoice(choices, nextChoice) {
         console.dir(`addChoice <${nextChoice}> ${nextChoice.length}`);
 
@@ -85,8 +82,6 @@ class PollSetup extends React.Component {
     render() {
         const { choices } = this.state;
         let container = [];
-        // let questions = ['Question 1 asdfasd', 'Question 2 fdasewf', 'Question 3 asdfa'];
-        // let questions = ['1', '2', '3'];
         choices.forEach((choice,index)=> {
             container.push(<Radio key={index} name="choiceOption" disabled={true}>
                 {choice}
@@ -115,13 +110,6 @@ class PollSetup extends React.Component {
                                 <FormControl type="text" placeholder="Enter Question" value={this.state.question} onChange={this.handleQuestionChange.bind(this)}/>
                             </FormGroup>
                             <div id='container-div'>{container}</div>
-                            {/*{this.state.choices.forEach((choice, index)=>*/}
-                                {/*<div>*/}
-                                {/*<Radio key={index} name="choiceOption" disabled={true}>{choice}</Radio>*/}
-                                {/*<div>Delete</div>*/}
-                                {/*</div>*/}
-                                {/*)*/}
-                            {/*}*/}
                         </div>
                         <div>
                             <FormControl type="text" placeholder="Enter choice" value={this.state.newChoice} onChange={this.handleNewChoiceChange.bind(this)} />
