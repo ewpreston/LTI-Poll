@@ -135,6 +135,7 @@ class PollSetup extends React.Component {
               <div id="container-div">{container}</div>
               <div/>
             </div>
+          <br/>
             <div>
               <TextField
                   label={"Choice"}

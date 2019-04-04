@@ -10,7 +10,7 @@ let consumerSecret = "secret";
 let returnUrl = "";
 let sha_method = "";
 
-exports.got_launch = function(req, res, contentItemData) {
+export default function(req, res, contentItemData) {
   returnUrl = req.body.content_item_return_url;
   sha_method = req.body.oauth_signature_method;
   console.log("Signature Method: " + sha_method);
