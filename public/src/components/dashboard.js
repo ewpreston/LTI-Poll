@@ -24,6 +24,7 @@ import LaunchEndpoint from "./home";
 import {mainListItems, settings} from "./listItems";
 import LTIAdvView from "./ltiAdvView";
 import NamesRolesView from "./namesRolesView";
+import PollSetup from "./pollSetup";
 import Setup from "./setupView";
 import SetupView from "./setupView";
 
@@ -209,6 +210,7 @@ class Dashboard extends React.Component {
               <Route path="/deep_link_options" component={DeepLinkOptions} />
               <Route path="/names_roles_view" component={NamesRolesView} />
               <Route path="/assign_grades_view" component={AssignGradesView} />
+              <Route path={"/pollSetup"} component={PollSetup} />
             </main>
           </HashRouter>
         </div>
