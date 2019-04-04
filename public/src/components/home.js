@@ -1,63 +1,69 @@
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import React from "react";
-import {Button, ControlLabel, FormControl, FormGroup} from "react-bootstrap";
+import {HashRouter} from "react-router-dom";
 
 class LaunchEndpoint extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {config: {}, setupData: {}};
+    this.state = { config: {}, setupData: {} };
     this.createPoll = this.createPoll.bind(this);
   }
 
   componentDidMount() {
-    fetch('config')
+    fetch("config")
       .then(result => result.json())
       .then(config => {
-        this.setState({config: config});
-        });
+        this.setState({ config: config });
+      });
 
-    fetch('setupData')
+    fetch("setupData")
       .then(result => result.json())
       .then(setupData => {
-        this.setState({setupData: setupData});
-      })
+        this.setState({ setupData: setupData });
+      });
   }
 
   createPoll() {
-    alert('Insert create poll function here');
+    alert("Insert create poll function here");
   }
 
   render() {
-    const baseUrl = this.state.config.provider_domain + (this.state.config.provider_port !== 'NA' ? ':' + this.state.config.provider_port : '');
+    const baseUrl =
+      this.state.config.provider_domain +
+      (this.state.config.provider_port !== "NA"
+        ? ":" + this.state.config.provider_port
+        : "");
 
     return (
       <div>
-        <div className="row">
-          <h2>Welcome to the LTI Polling Tool</h2>
-        </div>
-
-        <div className="row">
-            <FormGroup>
-              <Button onClick={this.createPoll}>Create Poll</Button>
-            </FormGroup>
-        </div>
-
-        <div className="row">
-          <h2>Your Polls</h2>
-        </div>
-
-        <div className="row">
-          <h2>Your configuration</h2>
+        <HashRouter>
+          <Typography variant="h4" gutterBottom component="h2">
+            Welcome to the LTI Polling Tool
+          </Typography>
+          <Typography variant="h4" gutterBottom component="h2">
+            Your configuration
+          </Typography>
           <p>LTI 1.3 Launch URL: {baseUrl}</p>
           <p>Blackboard Client ID: {this.state.setupData.applicationId}</p>
-
-        </div>
-
-        <div className="row">
-          For the setup page go <a href="/setup">here</a>
-        </div>
+          <div>
+            <Button
+              variant={"outlined"}
+              onClick={this.createPoll}
+              color={"primary"}>
+              Create Poll
+            </Button>
+          </div>
+          <br />
+          <div>
+            <Button variant={"outlined"} color={"primary"} href={"/testRedis"}>
+              Test Redis
+            </Button>
+          </div>
+        </HashRouter>
       </div>
-    )
+    );
   }
 }
 
-module.exports = LaunchEndpoint;
+export default LaunchEndpoint;

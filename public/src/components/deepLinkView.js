@@ -1,5 +1,5 @@
-import React from 'react';
-import JSONTree from 'react-json-tree';
+import React from "react";
+import JSONTree from "react-json-tree";
 
 class DeepLinkPayloadView extends React.Component {
   constructor(props) {
@@ -8,9 +8,9 @@ class DeepLinkPayloadView extends React.Component {
   }
 
   componentDidMount() {
-    fetch('dlPayloadData')
+    fetch("dlPayloadData")
       .then(result => result.json())
-      .then((dlPayload) => {
+      .then(dlPayload => {
         this.setState({
           header: dlPayload.header,
           body: dlPayload.body,
@@ -24,23 +24,38 @@ class DeepLinkPayloadView extends React.Component {
   }
 
   render() {
-    const verified = (this.state.verified) ? <span className="verified">Verified<br/></span> : <span className="notverified">Verify failed<br/></span>;
+    const verified = this.state.verified ? (
+      <span className="verified">
+        Verified
+        <br />
+      </span>
+    ) : (
+      <span className="notverified">
+        Verify failed
+        <br />
+      </span>
+    );
 
-    return(
+    return (
       <div>
-        <div><h3>Deep Linking 2.0 Launch</h3></div>
+        <div>
+          <h3>Deep Linking 2.0 Launch</h3>
+        </div>
 
         <div>
-          <p>We have received your Deep Linking launch. You can view the JSON below.</p>
+          <p>
+            We have received your Deep Linking launch. You can view the JSON
+            below.
+          </p>
           <form action={this.state.returnUrl} method="POST">
-            <input type="hidden" name="JWT" value={this.state.jwt}/>
+            <input type="hidden" name="JWT" value={this.state.jwt} />
             <input type="submit" value="Return Deep Linking" />
           </form>
 
           <b>Return JSON</b>
           <JSONTree data={this.state.returnJSON} hideRoot={true} />
 
-          <br/>
+          <br />
           <h4>Deep Linking Request</h4>
           {verified}
 
@@ -51,8 +66,8 @@ class DeepLinkPayloadView extends React.Component {
           <JSONTree data={this.state.body} hideRoot={true} />
         </div>
       </div>
-    )
+    );
   }
 }
 
-module.exports = DeepLinkPayloadView;
+export default DeepLinkPayloadView;
