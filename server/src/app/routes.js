@@ -2,8 +2,8 @@ import path from "path";
 import {AGPayload, ContentItem, JWTPayload, NRPayload, SetupParameters} from "../common/restTypes";
 import config from "../config/config";
 import assignGrades from "./assign-grades";
-import content_item from "./content-item";
-import deepLinking from "./deep-linking";
+import {default as content_item} from "./content-item";
+import {deepLink, deepLinkContent} from "./deep-linking";
 import lti from "./lti";
 import ltiAdv from "./lti-adv";
 import namesRoles from "./names-roles";
@@ -62,7 +62,7 @@ module.exports = function(app) {
         redisUtil.redisSave(contentitem_key, contentItemData);
         ciLoaded = true;
 
-        let redirectUrl = provider + "/content_item";
+        let redirectUrl = provider + "#/content_item";
         console.log("Redirecting to : " + redirectUrl);
         res.redirect(redirectUrl);
       });
@@ -87,7 +87,7 @@ module.exports = function(app) {
       passthru_req = req;
       passthru_res = res;
       passthru = true;
-      res.redirect("/cim_request");
+      res.redirect("#/cim_request");
     } else {
       if (!passthru) {
         // custom_option was set in call from TC so use current req and res
@@ -131,14 +131,14 @@ module.exports = function(app) {
     console.log("--------------------\nltiAdvantage");
     jwtPayload = new JWTPayload();
     ltiAdv.verifyToken(req.body.id_token, jwtPayload, setup);
-    res.redirect("/lti_adv_view");
+    res.redirect("#/lti_adv_view");
   });
 
   app.post("/ltiAdv", (req, res) => {
     console.log("--------------------\nltiAdvantage");
     jwtPayload = new JWTPayload();
     ltiAdv.verifyToken(req.body.id_token, jwtPayload, setup);
-    res.redirect("/lti_adv_view");
+    res.redirect("#/lti_adv_view");
   });
 
   app.get("/jwtPayloadData", (req, res) => {
@@ -158,8 +158,8 @@ module.exports = function(app) {
     console.log("--------------------\ndeepLink");
     dlPayload = new JWTPayload();
     ltiAdv.verifyToken(req.body.id_token, dlPayload, setup);
-    deepLinking.deepLink(req, res, dlPayload, setup);
-    res.redirect("/deep_link");
+    deepLink(req, res, dlPayload, setup);
+    res.redirect("#/deep_link");
   });
 
   app.get("/dlPayloadData", (req, res) => {
@@ -170,13 +170,13 @@ module.exports = function(app) {
     console.log("--------------------\ndeepLinkOptions");
     dlPayload = new JWTPayload();
     ltiAdv.verifyToken(req.body.id_token, dlPayload, setup);
-    res.redirect("/deep_link_options");
+    res.redirect("#/deep_link_options");
   });
 
   app.post("/deepLinkContent", (req, res) => {
     console.log("--------------------\ndeepLinkContent");
-    deepLinking.deepLinkContent(req, res, dlPayload, setup);
-    res.redirect("/deep_link");
+    deepLinkContent(req, res, dlPayload, setup);
+    res.redirect("#/deep_link");
   });
 
   //=======================================================
@@ -206,7 +206,7 @@ module.exports = function(app) {
     console.log("--------------------\nassignAndGrades");
     agPayload = new AGPayload();
     assignGrades.assignGrades(req, res, agPayload, setup);
-    res.redirect("/assign_grades_view");
+    res.redirect("#/assign_grades_view");
   });
 
   app.post("/agsReadCols", (req, res) => {
@@ -260,7 +260,7 @@ module.exports = function(app) {
 
   app.get("/setup", (req, res) => {
     console.log("--------------------\nsetup");
-    res.redirect("/setup_page");
+    res.redirect("#/setup_page");
   });
 
   app.get("/setupData", (req, res) => {
@@ -274,26 +274,42 @@ module.exports = function(app) {
     setup.applicationId = req.body.applicationId;
     setup.devPortalHost = req.body.devPortalHost;
     redisUtil.redisSave(setup_key, setup);
-    res.redirect("/setup_page");
+    res.redirect("#/setup_page");
+  });
+
+  //=======================================================
+  // Pass poll data back to react
+  //
+  // Usage in React:
+  //   fetch( "getQuestion?pollId=<id>" )
+
+  app.get("/getQuestion", (req, res) => {
+    redisUtil.loadPollQuestion(req.pollId).then( (question) => { res.send(question) });
+  });
+
+  app.get("/getOptions", (req, res) => {
+    redisUtil.loadPollOptions(req.pollId).then( (options) => { res.send(options); });
+  });
+
+  app.get("/getResults", (req, res) => {
+    redisUtil.loadPollResults(req.pollId).then( (results) => { res.send(options); });
   });
 
   //=======================================================
   // Test REDIS
 
   app.get("/testRedis", (req, res) => {
+    console.log("--------------------\ntestRedis");
     let pollId = "1234567";
 
     redisUtil.savePollQuestion(pollId, "What is your favorite color");
-    console.log(redisUtil.loadPollQuestion(pollId));
+    redisUtil.loadPollQuestion(pollId).then((question) => { console.log(question); });
 
-    let options = ["Red", "Blue", "Purple", "Yellow"];
-    console.log(options);
-
-    redisUtil.savePollOptions(pollId, options);
-    console.log(redisUtil.loadPollOptions(pollId));
+    redisUtil.savePollOptions(pollId, ["Red", "Blue", "Purple", "Yellow"]);
+    redisUtil.loadPollOptions(pollId).then( (options) => { console.log(options); });
 
     redisUtil.savePollAnswer(pollId, Math.floor(Math.random() * 4));
-    console.log(redisUtil.loadPollResults(pollId));
+    redisUtil.loadPollResults(pollId).then( (results) => { console.log(results); });
 
     res.send("<html><body>1</body></html>");
   });
@@ -302,7 +318,7 @@ module.exports = function(app) {
   // Poll
   app.post('/pollSetup', (req, res) => {
     console.log('--------------------\npollSetup');
-    res.redirect('/poll_setup');
+    res.redirect('#/poll_setup');
   });
 
   //=======================================================

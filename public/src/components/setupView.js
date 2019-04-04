@@ -15,11 +15,7 @@ class SetupView extends Component {
     this.state = {};
 
     this.handleChange = this.handleChange.bind(this);
-    SetupView.handleSubmit = SetupView.handleSubmit.bind(this);
-  }
-
-  static handleSubmit() {
-    return <SimpleSnackbar />;
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +34,10 @@ class SetupView extends Component {
       });
   }
 
+  handleSubmit() {
+    return <SimpleSnackbar />;
+  }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -49,7 +49,8 @@ class SetupView extends Component {
           action="/saveSetup"
           method="post"
           encType="application/x-www-form-urlencoded"
-          onSubmit={SetupView.handleSubmit}>
+          onSubmit={this.handleSubmit}
+            >
           <Typography variant="h4" gutterBottom component="h2">
             LTI Advantage Settings
           </Typography>
@@ -64,7 +65,7 @@ class SetupView extends Component {
             InputLabelProps={{
               shrink: true
             }}
-            value={this.state.devPortalHost}
+            //value={this.state.devPortalHost}
             onChange={this.handleChange}
           />
           <br />
@@ -78,7 +79,7 @@ class SetupView extends Component {
             InputLabelProps={{
               shrink: true
             }}
-            value={this.state.applicationId}
+            //value={this.state.applicationId}
             onChange={this.handleChange}
           />
           <br />
@@ -92,7 +93,7 @@ class SetupView extends Component {
             InputLabelProps={{
               shrink: true
             }}
-            value={this.state.tokenEndPoint}
+            //value={this.state.tokenEndPoint}
             onChange={this.handleChange}
           />
           <br />
@@ -106,7 +107,7 @@ class SetupView extends Component {
             InputLabelProps={{
               shrink: true
             }}
-            value={this.state.issuer}
+            //value={this.state.issuer}
             onChange={this.handleChange}
           />
           <br />
@@ -122,12 +123,12 @@ class SetupView extends Component {
             InputLabelProps={{
               shrink: true
             }}
-            value={this.state.privateKey}
+            //value={this.state.privateKey}
             onChange={this.handleChange}
           />
           <br />
           <br />
-          <Button variant="contained" color="secondary" type={"submit"}>
+          <Button variant="contained" color="secondary" onChange={this.handleSubmit}>
             Save
           </Button>
         </form>

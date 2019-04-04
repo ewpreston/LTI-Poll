@@ -18,8 +18,8 @@ import {HashRouter, Route} from "react-router-dom";
 import AssignGradesView from "./assignGradesView";
 import CIMRequestView from "./cimRequestView";
 import ContentItemView from "./contentItemView";
-import {DeepLinkOptions} from "./deepLinkOptions";
-import DeepLinkView from "./deepLinkView";
+import DeepLinkOptions from "./deepLinkOptions";
+import DeepLinkPayloadView from "./deepLinkView";
 import LaunchEndpoint from "./home";
 import {mainListItems, settings} from "./listItems";
 import LtiAdvView from "./ltiAdvView";
@@ -206,11 +206,11 @@ class Dashboard extends React.Component {
               <Route path="/cim_request" component={CIMRequestView} />
               <Route path="/lti_adv_view" component={LtiAdvView} />
               <Route path="/setup_page" component={SetupView} />
-              <Route path="/deep_link" component={DeepLinkView} />
+              <Route path="/deep_link" component={DeepLinkPayloadView} />
               <Route path="/deep_link_options" component={DeepLinkOptions} />
               <Route path="/names_roles_view" component={NamesRolesView} />
               <Route path="/assign_grades_view" component={AssignGradesView} />
-              <Route path={"/pollSetup"} component={PollSetup} />
+              <Route path="/pollSetup" component={PollSetup} />
             </main>
           </HashRouter>
         </div>
