@@ -4,31 +4,25 @@ import Radio from "react-bootstrap/es/Radio";
 
 
 class PollSetup extends React.Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             pollId: '1A',
-            question: '',
-            choices: [],
+            question: 'Question',
+            choices: ['Choice'],
+            newChoice: '',
         };
         console.dir(`PollSetup constructor`);
     }
 
     componentDidMount() {
+        console.dir(`componentDidMount`);
         // Get data from redis and populate state
         this.setState({
-            question: 'Question to be loaded from redis',
-            choices: [  'Choice loaded from redis 1',
-                        'Choice loaded from redis 2',
-                        'Choice loaded from redis 3',
-                        'Choice loaded from redis 4',
-                        'Choice loaded from redis 5',
-                        'Choice loaded from redis 6',
-                        'Choice loaded from redis 7',
-                        'Choice loaded from redis 8',
-                        'Choice loaded from redis 9',
-                        'Choice loaded from redis 10'
+            question: '',
+            choices: [
                     ],
 
         });
@@ -37,39 +31,51 @@ class PollSetup extends React.Component {
     // handleResultChange(event) {
     //     this.setState({resultText: event.target.value});
     // }
-    handleQuestionChange(e) {
+    handleQuestionChange(event) {
+        console.dir(`handleQuestionChange ${event.target.value}`);
         this.setState({
-            question :getQuestionValue
+            question: event.target.value
         });
     }
 
-    handleChoiceChange(e) {
-        console.dir(`handleChoiceChange`);
+    handleNewChoiceChange(event) {
+        console.dir(`handleNewChoiceChange ${event.target.value}`);
+        this.setState({
+            newChoice: event.target.value
+        });
+        event.target.value = ''
     }
 
 
-    addChoice() {
-        console.dir(`addChoice`);
+    //addChoice = () => {
+    addChoice(choices, nextChoice) {
+        console.dir(`addChoice <${nextChoice}> ${nextChoice.length}`);
 
         // TODO Why is this not working?
-        const { choices } = this.state;
-        if (choices === undefined) {
-            console.dir(`this.state.choices undefined`);
+        if (nextChoice !== undefined && nextChoice.length > 0) {
+            choices.push(nextChoice);
+            this.setState({
+                choices: choices,
+                newChoice: ''
+            });
         } else {
-            // let choicesClone = Object.assign({}, choices);
-            // const questIndex = quesiton.length;
-            choices.push({pollIdQ: 'Question x', pollIdA: [], pollIdR: []});
-            // questions.push({pollIdQ: 'Question 1', pollIdA:['Answer 1', 'Answer 2'], pollIdR: [2]});
-            this.setState({choices: choices});
+            console.dir(`nextChoice is undefined or empty`);
         }
     }
 
-    deleteChoice() {
+    deleteChoice(e) {
         console.dir(`deleteChoice`);
+        // https://stackoverflow.com/questions/36326612/delete-item-from-state-array-in-react
+        // var array = [...this.state.choices]; // make a separate copy of the array
+        // var index = array.indexOf(e.target.value)
+        // if (index !== -1) {
+        //     array.splice(index, 1);
+        //     this.setState({people: array});
+        // }
     }
 
     save() {
-        console.dir(`save`);
+        console.dir(`save to redis`);
     }
 
     cancel() {
@@ -82,10 +88,6 @@ class PollSetup extends React.Component {
         // let questions = ['Question 1 asdfasd', 'Question 2 fdasewf', 'Question 3 asdfa'];
         // let questions = ['1', '2', '3'];
         choices.forEach((choice,index)=> {
-            console.dir(`choice ${choice} ${index}`);
-            // container.push(<div key={index} id={index}>
-            //     {choice}
-            // </div>);
             container.push(<Radio key={index} name="choiceOption" disabled={true}>
                 {choice}
             </Radio>);
@@ -101,7 +103,6 @@ class PollSetup extends React.Component {
              )
              **/
         });
-        console.dir(`pre return`);
 
         return (
             <div>
@@ -111,12 +112,20 @@ class PollSetup extends React.Component {
                         <div>
                             <FormGroup controlId="question">
                                 <ControlLabel>Question</ControlLabel>
-                                <FormControl type="text" placeholder="Enter Question" value={this.state.question} onChange={this.handleQuestionChange}/>
+                                <FormControl type="text" placeholder="Enter Question" value={this.state.question} onChange={this.handleQuestionChange.bind(this)}/>
                             </FormGroup>
                             <div id='container-div'>{container}</div>
+                            {/*{this.state.choices.forEach((choice, index)=>*/}
+                                {/*<div>*/}
+                                {/*<Radio key={index} name="choiceOption" disabled={true}>{choice}</Radio>*/}
+                                {/*<div>Delete</div>*/}
+                                {/*</div>*/}
+                                {/*)*/}
+                            {/*}*/}
                         </div>
                         <div>
-                            <Button onClick={this.addChoice}>Add Choice</Button>
+                            <FormControl type="text" placeholder="Enter choice" value={this.state.newChoice} onChange={this.handleNewChoiceChange.bind(this)} />
+                            <Button onClick={() => this.addChoice(this.state.choices, this.state.newChoice)}>Add Choice</Button>
                         </div>
                         <div>
                             <Button onClick={this.cancel}>Cancel</Button> <Button onClick={this.save}>Save</Button>
