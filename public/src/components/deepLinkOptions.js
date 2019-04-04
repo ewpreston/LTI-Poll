@@ -1,6 +1,8 @@
-import React from "react";
+import React, {Component} from "react";
 
-export const DeepLinkOptions = () => (
+class DeepLinkOptions extends Component {
+  render() {
+    return (
   <div>
     <div>
       <h3>Deep Linking Payload Options</h3>
@@ -158,4 +160,8 @@ export const DeepLinkOptions = () => (
       </form>
     </div>
   </div>
-);
+    )
+  }
+}
+
+export default DeepLinkOptions;
