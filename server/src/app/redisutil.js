@@ -39,12 +39,13 @@ module.exports = (function() {
       this.redisSave(key, question);
     },
 
-    loadPollQuestion: function(pollId) {
+    loadPollQuestion: async function(pollId) {
       let key = pollId + "Q";
-      this.redisGet(key).then(question => {
-        console.log(question);
-        return question;
-      });
+      return await this.redisGet(key);
+      // this.redisGet(key).then(question => {
+      //   console.log(question);
+      //   return question;
+      // });
     },
 
     savePollOptions: function(pollId, options) {
@@ -53,13 +54,14 @@ module.exports = (function() {
       this.redisSave(key, value);
     },
 
-    loadPollOptions: function(pollId) {
+    loadPollOptions: async function(pollId) {
       let key = pollId + "A";
-      this.redisGet(key).then(value => {
-        let options = JSON.parse(value);
-        console.log(options);
-        return options;
-      });
+      return await this.redisGet(key);
+      // this.redisGet(key).then(value => {
+      //   let options = JSON.parse(value);
+      //   console.log(options);
+      //   return options;
+      // });
     },
 
     savePollAnswer: function(pollId, answer) {
@@ -76,28 +78,44 @@ module.exports = (function() {
       });
     },
 
-    loadPollResults: function(pollId) {
+    loadPollResults: async function(pollId) {
       let rKey = pollId + "R";
       let aKey = pollId + "A";
-      this.redisGet(aKey).then(aValue => {
-        let answers = JSON.parse(aValue);
-        let results = [];
-        for (let i = 0; i < answers.length; i++) {
-          let result = new Result();
-          result.option = answers[i];
-          result.index = i;
-          result.count = 0;
-          results.push(result);
-        }
-        this.redisGet(rKey).then(rValue => {
-          let counts = JSON.parse(rValue);
-          for (let j = 0; j < counts.length; j++) {
-            results[counts[j]].count++;
-          }
-          console.log(results);
-          return results;
-        });
-      });
+      let aValue = await this.redisGet(aKey);
+      let answers = JSON.parse(aValue);
+      let results = [];
+      for (let i = 0; i < answers.length; i++) {
+        let result = new Result();
+        result.option = answers[i];
+        result.index = i;
+        result.count = 0;
+        results.push(result);
+      }
+      let rValue = await this.redisGet(rKey);
+      let counts = JSON.parse(rValue);
+      for (let j = 0; j < counts.length; j++) {
+        results[counts[j]].count++;
+      }
+      return results;
+      // this.redisGet(aKey).then(aValue => {
+      //   let answers = JSON.parse(aValue);
+      //   let results = [];
+      //   for (let i = 0; i < answers.length; i++) {
+      //     let result = new Result();
+      //     result.option = answers[i];
+      //     result.index = i;
+      //     result.count = 0;
+      //     results.push(result);
+      //   }
+      //   this.redisGet(rKey).then(rValue => {
+      //     let counts = JSON.parse(rValue);
+      //     for (let j = 0; j < counts.length; j++) {
+      //       results[counts[j]].count++;
+      //     }
+      //     console.log(results);
+      //     return results;
+      //   });
+      // });
     }
   };
 })();

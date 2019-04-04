@@ -278,22 +278,38 @@ module.exports = function(app) {
   });
 
   //=======================================================
+  // Pass poll data back to react
+  //
+  // Usage in React:
+  //   fetch( "getQuestion?pollId=<id>" )
+
+  app.get("/getQuestion", (req, res) => {
+    redisUtil.loadPollQuestion(req.pollId).then( (question) => { res.send(question) });
+  });
+
+  app.get("/getOptions", (req, res) => {
+    redisUtil.loadPollOptions(req.pollId).then( (options) => { res.send(options); });
+  });
+
+  app.get("/getResults", (req, res) => {
+    redisUtil.loadPollResults(req.pollId).then( (results) => { res.send(options); });
+  });
+
+  //=======================================================
   // Test REDIS
 
   app.get("/testRedis", (req, res) => {
+    console.log("--------------------\ntestRedis");
     let pollId = "1234567";
 
     redisUtil.savePollQuestion(pollId, "What is your favorite color");
-    console.log(redisUtil.loadPollQuestion(pollId));
+    redisUtil.loadPollQuestion(pollId).then((question) => { console.log(question); });
 
-    let options = ["Red", "Blue", "Purple", "Yellow"];
-    console.log(options);
-
-    redisUtil.savePollOptions(pollId, options);
-    console.log(redisUtil.loadPollOptions(pollId));
+    redisUtil.savePollOptions(pollId, ["Red", "Blue", "Purple", "Yellow"]);
+    redisUtil.loadPollOptions(pollId).then( (options) => { console.log(options); });
 
     redisUtil.savePollAnswer(pollId, Math.floor(Math.random() * 4));
-    console.log(redisUtil.loadPollResults(pollId));
+    redisUtil.loadPollResults(pollId).then( (results) => { console.log(results); });
 
     res.send("<html><body>1</body></html>");
   });
