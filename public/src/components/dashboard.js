@@ -22,7 +22,7 @@ import {DeepLinkOptions} from "./deepLinkOptions";
 import DeepLinkView from "./deepLinkView";
 import LaunchEndpoint from "./home";
 import {mainListItems, settings} from "./listItems";
-import LTIAdvView from "./ltiAdvView";
+import LtiAdvView from "./ltiAdvView";
 import NamesRolesView from "./namesRolesView";
 import PollSetup from "./pollSetup";
 import Setup from "./setupView";
@@ -204,7 +204,7 @@ class Dashboard extends React.Component {
               <Route path="/home" component={LaunchEndpoint} />
               <Route path="/content_item" component={ContentItemView} />
               <Route path="/cim_request" component={CIMRequestView} />
-              <Route path="/lti_adv_view" component={LTIAdvView} />
+              <Route path="/lti_adv_view" component={LtiAdvView} />
               <Route path="/setup_page" component={SetupView} />
               <Route path="/deep_link" component={DeepLinkView} />
               <Route path="/deep_link_options" component={DeepLinkOptions} />
