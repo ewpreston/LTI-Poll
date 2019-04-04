@@ -1,6 +1,4 @@
-
-
-# BBDN-LTI-Tool-Provider-Node
+# LTI Poll
 This project is a multi-purpose application designed to demonstrate several integration methods available with Blackboard Learn. The application is an LTI 1.1 and 2.0 Tool Provider.
 Upon launch of the LTI Tool, the user is given a few options:
 

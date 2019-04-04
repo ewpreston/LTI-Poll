@@ -4,9 +4,7 @@ window.jQuery = $;
 import React from 'react';
 import {render} from 'react-dom';
 import {Router, Route, Link, browserHistory} from 'react-router';
-import Registration from './components/registration';
-import LaunchEndpoint from './components/launchEndpoint';
-import ProviderTools from './components/providerTools';
+import Home from './components/home';
 import ContentItemView from './components/contentItemView';
 import CIMRequestView from './components/cimRequestView';
 import LTIAdvView from './components/ltiAdvView';
@@ -29,10 +27,8 @@ const None = React.createClass({
 
 render((
   <Router history={browserHistory}>
-    <Route path="/" component={ProviderTools}/>
-    <Route path="/tp_registration" component={Registration}/>
-    <Route path="/provider_tools" component={ProviderTools}/>
-    <Route path="/ltilaunchendpoint" component={LaunchEndpoint}/>
+    <Route path="/" component={Home}/>
+    <Route path="/home" component={Home}/>
     <Route path="/content_item" component={ContentItemView}/>
     <Route path="/cim_request" component={CIMRequestView}/>
     <Route path="/lti_adv_view" component={LTIAdvView}/>

@@ -3,10 +3,7 @@ import config from "../config/config";
 import path from "path";
 import {AGPayload, ContentItem, JWTPayload, NRPayload, RegistrationData, SetupParameters} from "../common/restTypes";
 
-var crypto = require('crypto');
 var registration = require('./registration.js');
-var redis = require('redis');
-var redisClient = redis.createClient({"host": config.redis_host, "port": config.redis_port});
 var redisUtil = require('./redisutil');
 var lti = require('./lti');
 var content_item = require('./content-item');
@@ -45,18 +42,6 @@ module.exports = function (app) {
 
   //=======================================================
   // LTI 1 provider and caliper stuff
-  app.post('/caliper/send', (req, res) => {
-    lti.caliper_send(req, res);
-  });
-  app.post('/caliper/register', (req, res) => {
-    lti.caliper(req, res);
-  });
-  app.post('/caliper', (req, res) => {
-    eventstore.got_caliper(req, res);
-  });
-  app.get('/caliper', (req, res) => {
-    eventstore.show_events(req, res);
-  });
   app.post('/rest/auth', (req, res) => {
     lti.rest_auth(req, res);
   });
@@ -91,79 +76,6 @@ module.exports = function (app) {
     if (req.body.lti_message_type === 'basic-lti-launch-request') {
       lti.got_launch(req, res);
     }
-  });
-
-  //=======================================================
-  // LTI 2 registration stuff
-  app.get('/toolproxy', (req, res) => {
-    redisUtil.getToolProxy().then((toolProxies) => {
-      let toolProxiesJSON = [];
-
-      toolProxies.map((toolProxy) => {
-        let toolProxyJSON = JSON.parse(toolProxy);
-        toolProxiesJSON.push(toolProxyJSON);
-      });
-
-      res.send(toolProxiesJSON);
-    });
-  });
-
-  app.get('/toolproxy/:tool_proxy_guid', (req, res) => {
-    let tool_proxy_guid = req.params.tool_proxy_guid;
-    redisUtil.redisGet(tool_proxy_guid).then((toolProxy) => {
-      res.send(toolProxy);
-    });
-  });
-
-  app.get('/launchendpointactivity', (req, res) => {
-    if (_.isEmpty(registrationData)) {
-      redisUtil.redisGet(regdata_key).then(function (regData) {
-        registrationData = regData;
-        res.send({
-          "requestBody": launchData.requestBody,
-          "registrationData": registrationData,
-          "toolProxy": launchData.toolProxy
-        });
-      });
-    } else {
-      res.send({
-        "requestBody": launchData.requestBody,
-        "registrationData": registrationData,
-        "toolProxy": launchData.toolProxy
-      });
-    }
-  });
-
-  app.get('/registrationactivity', (req, res) => {
-    // if it's empty then see if we have it in the cache
-    if (!dataLoaded) {
-      redisUtil.redisGet(regdata_key).then((regData) => {
-        registrationData = regData;
-        res.send(registrationData);
-      });
-    } else {
-      res.send(registrationData);
-    }
-  });
-
-  app.post('/ltilaunchendpoint', (req, res) => {
-    launchData.requestBody = req.body;
-    let redirectUrl = provider + '/ltilaunchendpoint';
-    redisUtil.redisGet(req.body.oauth_consumer_key).then((toolProxy) => {
-      launchData.toolProxy = toolProxy;
-      res.redirect(redirectUrl);
-    });
-  });
-
-  app.post('/registration', (req, res) => {
-    registration.handleRegistrationPost(req, res, registrationData).then(() => {
-      redisUtil.redisSave(regdata_key, registrationData);
-      dataLoaded = true;
-      let redirectUrl = provider + '/tp_registration';
-
-      console.log('Redirecting to : ' + redirectUrl);
-      res.redirect(redirectUrl);
-    });
   });
 
   //=======================================================
@@ -334,6 +246,10 @@ module.exports = function (app) {
     res.send(agPayload);
   });
 
+  app.get('/config', (req, res) => {
+    res.send(config);
+  });
+
   //=======================================================
   // Grab a token and display it
 
@@ -362,6 +278,28 @@ module.exports = function (app) {
     setup.devPortalHost = req.body.devPortalHost;
     redisUtil.redisSave(setup_key, setup);
     res.redirect('/setup_page');
+  });
+
+  //=======================================================
+  // Test REDIS
+
+  app.get('/testRedis', (req, res) => {
+    let pollId = '1234567';
+
+    redisUtil.savePollQuestion(pollId, 'What is your favorite color');
+    console.log(redisUtil.loadPollQuestion(pollId));
+
+    let options = ['Red', 'Blue', 'Purple', 'Yellow'];
+    console.log(options);
+
+    redisUtil.savePollOptions(pollId, options);
+    console.log(redisUtil.loadPollOptions(pollId));
+
+    redisUtil.savePollAnswer(pollId, Math.floor(Math.random() * 4));
+    console.log(redisUtil.loadPollResults(pollId));
+
+    res.send('<html><body>1</body></html>');
+
   });
 
   //=======================================================

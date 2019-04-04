@@ -17,7 +17,7 @@ var options = (config.use_ssl) ? {
 } : {key: null, cert: null};
 
 let provider = config.provider_domain + (config.provider_port !== "NA" ? ":" + config.provider_port : "");
-let listenPort = (config.provider_port !== "NA" ? config.provider_port : 3000);
+let listenPort = process.env.PORT || (config.provider_port !== "NA" ? config.provider_port : 5000);
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // don't validate ssl cert for posts to ssl sites
 
@@ -103,10 +103,10 @@ redisUtil.redisGet(setup_key).then((setupData) => {
     console.log('Initialize setup parameters');
   } else {
     console.log('Setup parameters');
-    console.log(setupData.issuer);
-    console.log(setupData.tokenEndPoint);
-    console.log(setupData.applicationId);
-    console.log(setupData.devPortalHost);
+    console.log('Issuer: ' + setupData.issuer);
+    console.log('Token: ' + setupData.tokenEndPoint);
+    console.log('Client ID: ' + setupData.applicationId);
+    console.log('Dev Portal: ' + setupData.devPortalHost);
   }
   console.log('--------------------');
 });
@@ -117,16 +117,16 @@ routes(app);
 
 // listen (start app with node server.js) ======================================
 
-httpProxy.listen(8543);
+//httpProxy.listen(8543);
 
 if (config.use_ssl) {
-  https.createServer(options, app).listen(listenPort, function () {
+  https.createServer(options, app).listen( listenPort, function () {
     console.log("Configuring for SSL use");
     console.log("LTI 1 Tool Provider:  " + provider + "/lti");
     console.log("LTI 1 Content Item: " + provider + "/CIMRequest");
     console.log("LTI 1.3 Launch: " + provider + "/lti13");
     console.log("LTI Deep Linking: " + provider + "/deepLinkOptions");
-    console.log("LTI 2 Registration URL:  " + provider + "/registration");
+    console.log("Listening on " + listenPort);
   });
 } else {
   app.listen(listenPort);
@@ -134,5 +134,4 @@ if (config.use_ssl) {
   console.log("LTI 1 Content Item: " + provider + "/CIMRequest");
   console.log("LTI 1.3 Launch: " + provider + "/lti13");
   console.log("LTI Deep Linking: " + provider + "/deepLinkOptions");
-  console.log("LTI 2 Registration URL:  " + provider + "/registration");
 }

@@ -7,7 +7,7 @@ import _ from "lodash";
 import tpGenerator from "./tool_proxy_generator.js";
 
 import {TCProfileResponse} from "../common/restTypes";
-let redisClient = redisUtil.redisInit(config.redis_host, config.redis_port);
+let redisClient = redisUtil.redisInit(config.redis_host, config.redis_port, config.redis_url, config.redis_password);
 let toolProxy = {};
 
 module.exports = function () {

@@ -116,7 +116,7 @@ let deepLinkingLTILink = function() {
     "type": "ltiResourceLink",
     "title": "A title for LTI Link",
     "text": "A description",
-    "url": config.provider_domain + ":" + config.provider_port + "/lti13",
+    "url": config.provider_domain + ":" + (config.provider_port !== "NA" ? ":" + config.provider_port : "") + "/lti13",
     "available": {
       "startDateTime": start,
       "endDateTime": end
