@@ -299,6 +299,13 @@ module.exports = function(app) {
   });
 
   //=======================================================
+  // Poll
+  app.post('/pollSetup', (req, res) => {
+    console.log('--------------------\npollSetup');
+    res.redirect('/poll_setup');
+  });
+
+  //=======================================================
   // Catch all
   app.get("*", (req, res) => {
     console.log("catchall - (" + req.url + ")");
