@@ -10,17 +10,15 @@ class DeepLinkOptions extends React.Component {
   }
 
   componentDidMount() {
-    fetch("jwtPayloadData")
+    fetch("dlPayloadData")
       .then(result => result.json())
-      .then(jwtPayload => {
+      .then(dlPayload => {
         this.setState({
-          header: jwtPayload.header,
-          body: jwtPayload.body,
-          returnUrl: jwtPayload.return_url,
-          errorUrl: jwtPayload.error_url,
-          verified: jwtPayload.verified,
-          namesRoles: jwtPayload.names_roles,
-          grading: jwtPayload.grading
+          header: dlPayload.header,
+          body: dlPayload.body,
+          returnUrl: dlPayload.return_url,
+          errorUrl: dlPayload.error_url,
+          verified: dlPayload.verified
         });
       });
   }
