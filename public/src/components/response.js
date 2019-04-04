@@ -1,22 +1,23 @@
 import React from "react";
-import {FormGroup, FormControl, FormLabel} from 'react-bootstrap';
+import {FormControl, FormGroup, FormLabel} from "react-bootstrap";
+
 const EmptyResponse = (
   <div>
     <table>
       <tbody>
-      <tr>
-        <td>Status</td>
-        <td >N/A</td>
-        <td >N/A</td>
-      </tr>
-      <tr>
-        <td>Body</td>
-        <td colSpan="2">N/A</td>
-      </tr>
-
+        <tr>
+          <td>Status</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>Body</td>
+          <td colSpan="2">N/A</td>
+        </tr>
       </tbody>
     </table>
-  </div>);
+  </div>
+);
 
 class Response extends React.Component {
   constructor(props) {
@@ -28,17 +29,19 @@ class Response extends React.Component {
       return EmptyResponse;
     }
 
-    if (this.props.response.status === 404 || this.props.response.status === 400) {
+    if (
+      this.props.response.status === 404 ||
+      this.props.response.status === 400
+    ) {
       return (
         <div>
-
           <table>
             <tbody>
-            <tr>
-              <td>Status</td>
-              <td >{this.props.response.status}</td>
-              <td >{this.props.response.message}</td>
-            </tr>
+              <tr>
+                <td>Status</td>
+                <td>{this.props.response.status}</td>
+                <td>{this.props.response.message}</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -46,27 +49,27 @@ class Response extends React.Component {
     } else if (this.props.response.status === 200) {
       return (
         <div>
-
           <table>
             <tbody>
-            <tr>
-              <td>Status</td>
-              <td >{this.props.response.status}</td>
-              <td >{this.props.response.message}</td>
-            </tr>
+              <tr>
+                <td>Status</td>
+                <td>{this.props.response.status}</td>
+                <td>{this.props.response.message}</td>
+              </tr>
             </tbody>
           </table>
           <FormGroup>
-
             <FormLabel>Response Body</FormLabel>
-            <FormControl componentClass="textarea" value={this.props.response.body} placeholder="textarea" />
-
+            <FormControl
+              componentClass="textarea"
+              value={this.props.response.body}
+              placeholder="textarea"
+            />
           </FormGroup>
         </div>
       );
     }
   }
 }
-
 
 export default Response;

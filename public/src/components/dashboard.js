@@ -1,36 +1,35 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import { withStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
-import MenuIcon from "@material-ui/icons/Menu";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import {createMuiTheme, MuiThemeProvider, withStyles} from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, settings } from "./listItems";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { Route, HashRouter } from "react-router-dom";
-import Setup from "./setupView";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import React from "react";
+import {HashRouter, Route} from "react-router-dom";
+import AssignGradesView from "./assignGradesView";
+import CIMRequestView from "./cimRequestView";
+import ContentItemView from "./contentItemView";
+import {DeepLinkOptions} from "./deepLinkOptions";
+import DeepLinkView from "./deepLinkView";
 import LaunchEndpoint from "./home";
-import ContentItemView from './contentItemView';
-import CIMRequestView from './cimRequestView';
-import LTIAdvView from './ltiAdvView';
-import SetupView from './setupView';
-import DeepLinkView from './deepLinkView';
-import {DeepLinkOptions} from './deepLinkOptions';
-import NamesRolesView from './namesRolesView';
-import AssignGradesView from './assignGradesView';
+import {mainListItems, settings} from "./listItems";
+import LTIAdvView from "./ltiAdvView";
+import NamesRolesView from "./namesRolesView";
+import Setup from "./setupView";
+import SetupView from "./setupView";
 
 const theme = createMuiTheme({
   typography: {
-    useNextVariants: true,
+    useNextVariants: true
   },
   palette: {
     //type: "dark",
@@ -139,38 +138,35 @@ class Dashboard extends React.Component {
     const { classes } = this.props;
 
     return (
-        <MuiThemeProvider theme={theme}>
-          <div className={classes.root}>
+      <MuiThemeProvider theme={theme}>
+        <div className={classes.root}>
+          <HashRouter>
             <CssBaseline />
             <AppBar
-                position="absolute"
-                className={classNames(
-                    classes.appBar,
-                    this.state.open && classes.appBarShift
-                )}
-            >
+              position="absolute"
+              className={classNames(
+                classes.appBar,
+                this.state.open && classes.appBarShift
+              )}>
               <Toolbar
-                  disableGutters={!this.state.open}
-                  className={classes.toolbar}
-              >
+                disableGutters={!this.state.open}
+                className={classes.toolbar}>
                 <IconButton
-                    color="secondary"
-                    aria-label="Open drawer"
-                    onClick={this.handleDrawerOpen}
-                    className={classNames(
-                        classes.menuButton,
-                        this.state.open && classes.menuButtonHidden
-                    )}
-                >
+                  color="secondary"
+                  aria-label="Open drawer"
+                  onClick={this.handleDrawerOpen}
+                  className={classNames(
+                    classes.menuButton,
+                    this.state.open && classes.menuButtonHidden
+                  )}>
                   <MenuIcon />
                 </IconButton>
                 <Typography
-                    component="h1"
-                    variant="h6"
-                    color="secondary"
-                    noWrap
-                    className={classes.title}
-                >
+                  component="h1"
+                  variant="h6"
+                  color="secondary"
+                  noWrap
+                  className={classes.title}>
                   LTI Polling Tool
                 </Typography>
                 <IconButton color="secondary">
@@ -181,15 +177,14 @@ class Dashboard extends React.Component {
               </Toolbar>
             </AppBar>
             <Drawer
-                variant="permanent"
-                classes={{
-                  paper: classNames(
-                      classes.drawerPaper,
-                      !this.state.open && classes.drawerPaperClose
-                  )
-                }}
-                open={this.state.open}
-            >
+              variant="permanent"
+              classes={{
+                paper: classNames(
+                  classes.drawerPaper,
+                  !this.state.open && classes.drawerPaperClose
+                )
+              }}
+              open={this.state.open}>
               <div className={classes.toolbarIcon}>
                 <IconButton onClick={this.handleDrawerClose}>
                   <ChevronLeftIcon />
@@ -200,58 +195,24 @@ class Dashboard extends React.Component {
               <Divider />
               <List>{settings}</List>
             </Drawer>
-            <HashRouter>
-              <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Route
-                    exact
-                    path="/"
-                    component={LaunchEndpoint}
-                />
-                <Route
-                    path="/setup"
-                    component={Setup}
-                />
-                <Route
-                    path="/home"
-                    component={LaunchEndpoint}
-                />
-                <Route
-                    path="/content_item"
-                    component={ContentItemView}
-                />
-                <Route
-                    path="/cim_request"
-                    component={CIMRequestView}
-                />
-                <Route
-                    path="/lti_adv_view"
-                    component={LTIAdvView}
-                />
-                <Route
-                    path="/setup_page"
-                    component={SetupView}
-                />
-                <Route
-                    path="/deep_link"
-                    component={DeepLinkView}
-                />
-                <Route
-                    path="/deep_link_options"
-                    component={DeepLinkOptions}
-                />
-                <Route
-                    path="/names_roles_view"
-                    component={NamesRolesView}
-                />
-                <Route
-                    path="/assign_grades_view"
-                    component={AssignGradesView}
-                />
-              </main>
-            </HashRouter>
-          </div>
-        </MuiThemeProvider>
+
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
+              <Route exact path="/" component={LaunchEndpoint} />
+              <Route path="/setup" component={Setup} />
+              <Route path="/home" component={LaunchEndpoint} />
+              <Route path="/content_item" component={ContentItemView} />
+              <Route path="/cim_request" component={CIMRequestView} />
+              <Route path="/lti_adv_view" component={LTIAdvView} />
+              <Route path="/setup_page" component={SetupView} />
+              <Route path="/deep_link" component={DeepLinkView} />
+              <Route path="/deep_link_options" component={DeepLinkOptions} />
+              <Route path="/names_roles_view" component={NamesRolesView} />
+              <Route path="/assign_grades_view" component={AssignGradesView} />
+            </main>
+          </HashRouter>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

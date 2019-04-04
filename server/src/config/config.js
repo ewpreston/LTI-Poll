@@ -1,6 +1,6 @@
 import _ from "lodash";
-import configJson from "../../config/config.json";
 import process from "process";
+import configJson from "../../config/config.json";
 
 /**
  * Load the customized config values from the config.json data.
@@ -11,7 +11,7 @@ import process from "process";
 let configJsonOverride = null;
 let configResult = {};
 try {
-  configJsonOverride = require('../../config/config_override.json');
+  configJsonOverride = require("../../config/config_override.json");
 } catch (ex) {
   // Ignore error if no override configuration file is present
 }
