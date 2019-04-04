@@ -24,6 +24,8 @@ let listenPort =
   process.env.PORT ||
   (config.provider_port !== "NA" ? config.provider_port : 5000);
 
+redisUtil.redisInit(config.redis_host, config.redis_port);
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // don't validate ssl cert for posts to ssl sites
 
 // sections refer to https://www.imsglobal.org/specs/ltiv2p0/implementation-guide
