@@ -1,12 +1,10 @@
 import React from "react";
 import JSONTree from "react-json-tree";
-import Button from "@material-ui/core/Button";
 
 class LtiAdvView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.createPoll = this.createPoll.bind(this);
   }
 
   componentDidMount() {
@@ -25,12 +23,7 @@ class LtiAdvView extends React.Component {
       });
   }
 
-  createPoll() {
-    alert("Insert create poll function here");
-  }
-
   render() {
-    const body = JSON.stringify(this.state.body);
     const verified = this.state.verified ? (
       <span className="verified">
         Verified
@@ -47,15 +40,6 @@ class LtiAdvView extends React.Component {
       <div>
         <div>
           <p>We have received your LTI launch. You can view the JSON below.</p>
-          <span>What would you like to do?</span>
-          <div>
-            <Button
-              variant={"outlined"}
-              onClick={this.createPoll}
-              color={"primary"}>
-              Create Poll
-            </Button>
-          </div>
         </div>
 
         <br />
