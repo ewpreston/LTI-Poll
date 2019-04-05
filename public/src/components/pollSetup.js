@@ -9,20 +9,37 @@ class PollSetup extends React.Component {
     super(props);
 
     this.state = {
-      pollId: "1A",
-      question: "Question",
-      choices: ["Choice"],
-      newChoice: ""
+      pollId: "",
+      question: "",
+      options: [""],
+      newOptions: ""
     };
-    console.dir(`PollSetup constructor`);
   }
 
   componentDidMount() {
-    console.dir(`componentDidMount`);
-    // Get data from redis and populate state
+    // TODO: remove hard coded id
+    const pollId = "1234567";
+
+    fetch( `getQuestion?pollId=${pollId}` )
+      .then(res => {
+        return res.text();
+      })
+    .then(value => {
+      this.setState({
+        question: value
+      })
+    });
+    fetch( `getOptions?pollId=${pollId}` )
+      .then(res => {
+        return res.json();
+      })
+      .then(value => {
+        this.setState({
+          options: value
+        })
+      });
     this.setState({
-      question: "",
-      choices: []
+      pollId: pollId,
     });
   }
 
@@ -33,23 +50,22 @@ class PollSetup extends React.Component {
     });
   }
 
-  handleNewChoiceChange(event) {
-    console.dir(`handleNewChoiceChange ${event.target.value}`);
+  handleNewOptionsChange(event) {
+    console.dir(`handlenewOptionsChange ${event.target.value}`);
     this.setState({
-      newChoice: event.target.value
+      newOptions: event.target.value
     });
     event.target.value = "";
   }
 
-  addChoice(choices, nextChoice) {
-    console.dir(`addChoice <${nextChoice}> ${nextChoice.length}`);
+  addOption(options, nextChoice) {
+    console.dir(`addOption <${nextChoice}> ${nextChoice.length}`);
 
-    // TODO Why is this not working?
     if (nextChoice !== undefined && nextChoice.length > 0) {
-      choices.push(nextChoice);
+      options.push(nextChoice);
       this.setState({
-        choices: choices,
-        newChoice: ""
+        options: options,
+        newOptions: ""
       });
     } else {
       console.dir(`nextChoice is undefined or empty`);
@@ -59,7 +75,7 @@ class PollSetup extends React.Component {
   deleteChoice(e) {
     console.dir(`deleteChoice`);
     // https://stackoverflow.com/questions/36326612/delete-item-from-state-array-in-react
-    // var array = [...this.state.choices]; // make a separate copy of the array
+    // var array = [...this.state.options]; // make a separate copy of the array
     // var index = array.indexOf(e.target.value)
     // if (index !== -1) {
     //     array.splice(index, 1);
@@ -76,13 +92,11 @@ class PollSetup extends React.Component {
   }
 
   render() {
-    const { choices } = this.state;
+    const { options } = this.state;
     let container = [];
-    choices.forEach((choice, index) => {
+    options.forEach((choice, index) => {
       container.push(
-        <Radio key={index} name="choiceOption" disabled={true}>
-          {choice}
-        </Radio>
+        <div>{choice}</div>
       );
       /**
              * 1. All loop generated elements require a key
@@ -105,7 +119,7 @@ class PollSetup extends React.Component {
         <div>
           <form action="pollDefine" method="POST">
             <div>
-              <FormGroup controlId="question">
+              <FormGroup>
                 <TextField
                   label={"Question"}
                   variant={"outlined"}
@@ -116,32 +130,34 @@ class PollSetup extends React.Component {
                     shrink: true
                   }}/>
               </FormGroup>
+              <div/>
               <div id="container-div">{container}</div>
+              <div/>
             </div>
           <br/>
             <div>
               <TextField
-                  fullWidth={"true"}
                   label={"Choice"}
                   variant={"outlined"}
                   placeholder={"Enter Choice"}
-                  value={this.state.newChoice}
-                  onChange={this.handleNewChoiceChange.bind(this)}
+                  value={this.state.newOptions}
+                  onChange={this.handleNewOptionsChange.bind(this)}
                   InputLabelProps={{
                     shrink: true
                   }}/>
-                  <br/>
-              <Button
-                onClick={() =>
-                  this.addChoice(this.state.choices, this.state.newChoice)
-                }
-              >
-                Add Choice
-              </Button>
+              <div>
+                <Button
+                  onClick={() =>
+                    this.addOption(this.state.options, this.state.newOptions)
+                  }
+                >
+                  Add Choice
+                </Button>
+              </div>
             </div>
             <div>
               <Button onClick={this.cancel}>Cancel</Button>{" "}
-              <Button type={"submit"} onClick={this.save}>Save</Button>
+              <Button onClick={this.save}>Save</Button>
             </div>
           </form>
         </div>

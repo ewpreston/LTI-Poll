@@ -284,15 +284,13 @@ module.exports = function(app) {
   //   fetch( "getQuestion?pollId=<id>" )
 
   app.get("/getQuestion", (req, res) => {
-    redisUtil.loadPollQuestion(req.pollId).then( (question) => { res.send(question) });
-  });
+    redisUtil.loadPollQuestion(req.query.pollId).then( (question) => { res.send(question) }); });
 
   app.get("/getOptions", (req, res) => {
-    redisUtil.loadPollOptions(req.pollId).then( (options) => { res.send(options); });
-  });
+    redisUtil.loadPollOptions(req.query.pollId).then( (options) => { res.send(options) }); });
 
   app.get("/getResults", (req, res) => {
-    redisUtil.loadPollResults(req.pollId).then( (results) => { res.send(options); });
+    redisUtil.loadPollResults(req.query.pollId).then( (results) => { res.send(results); });
   });
 
   //=======================================================
