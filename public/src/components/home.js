@@ -7,7 +7,6 @@ class LaunchEndpoint extends React.Component {
   constructor(props) {
     super(props);
     this.state = { config: {}, setupData: {} };
-    this.createPoll = this.createPoll.bind(this);
   }
 
   componentDidMount() {
@@ -22,10 +21,6 @@ class LaunchEndpoint extends React.Component {
       .then(setupData => {
         this.setState({ setupData: setupData });
       });
-  }
-
-  createPoll() {
-    alert("Insert create poll function here");
   }
 
   render() {
@@ -46,14 +41,6 @@ class LaunchEndpoint extends React.Component {
           </Typography>
           <p>LTI 1.3 Launch URL: {baseUrl}</p>
           <p>Blackboard Client ID: {this.state.setupData.applicationId}</p>
-          <div>
-            <Button
-              variant={"outlined"}
-              onClick={this.createPoll}
-              color={"primary"}>
-              Create Poll
-            </Button>
-          </div>
           <br />
           <div>
             <Button variant={"outlined"} color={"primary"} href={"/testRedis"}>

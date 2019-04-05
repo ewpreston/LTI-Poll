@@ -1,166 +1,71 @@
-import React, {Component} from "react";
+import React from "react";
+import JSONTree from "react-json-tree";
+import Button from "@material-ui/core/Button";
 
-class DeepLinkOptions extends Component {
+class DeepLinkOptions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.createPoll = this.createPoll.bind(this);
+  }
+
+  componentDidMount() {
+    fetch("dlPayloadData")
+      .then(result => result.json())
+      .then(dlPayload => {
+        this.setState({
+          header: dlPayload.header,
+          body: dlPayload.body,
+          returnUrl: dlPayload.return_url,
+          errorUrl: dlPayload.error_url,
+          verified: dlPayload.verified
+        });
+      });
+  }
+
+  createPoll() {
+    alert("Insert create poll function here");
+  }
+
   render() {
-    return (
-  <div>
-    <div>
-      <h3>Deep Linking Payload Options</h3>
-    </div>
+    const verified = this.state.verified ? (
+      <span className="verified">
+        Verified
+        <br />
+      </span>
+    ) : (
+      <span className="notverified">
+        Verify failed
+        <br />
+      </span>
+    );
 
-    <div>
-      <form action="deepLinkContent" method="POST">
-        <table>
-          <tbody>
-            <tr>
-              <td>&nbsp;</td>
-              <td>
-                <h5>Deep Linking Payloads</h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="radio" name="custom_option" value="1" />
-              </td>
-              <td>
-                Build-A-Payload
-                <br />
-                <br />
-                <table>
-                  <tbody>
-                    <tr>
-                      <td className="ci">LTI Links:</td>
-                      <td className="ci">
-                        <input
-                          className="ci"
-                          type="text"
-                          size="2"
-                          name="custom_ltilinks"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="ci">Content Links:</td>
-                      <td className="ci">
-                        <input
-                          className="ci"
-                          type="text"
-                          size="2"
-                          name="custom_contentlinks"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="ci">Files:</td>
-                      <td className="ci">
-                        <input
-                          className="ci"
-                          type="text"
-                          size="2"
-                          name="custom_files"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="ci">HTMLs:</td>
-                      <td className="ci">
-                        <input
-                          className="ci"
-                          type="text"
-                          size="2"
-                          name="custom_htmls"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="ci">Images:</td>
-                      <td className="ci">
-                        <input
-                          className="ci"
-                          type="text"
-                          size="2"
-                          name="custom_images"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="radio" name="custom_option" value="2" />
-              </td>
-              <td>
-                Enter JSON
-                <br />
-                <br />
-                <textarea rows="4" cols="50" name="custom_content" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <table>
-          <tbody>
-            <tr>
-              <td className="ci">&nbsp;</td>
-              <td className="ci">
-                <h5>Return messages</h5>
-              </td>
-              <td className="ci">Display</td>
-              <td className="ci">Log</td>
-            </tr>
-            <tr>
-              <td className="ci">Message</td>
-              <td className="ci">
-                <input
-                  className="ci"
-                  type="text"
-                  size="50"
-                  name="custom_message"
-                  defaultValue="I have a message"
-                />
-              </td>
-              <td>
-                <input
-                  className="cl"
-                  type="checkbox"
-                  name="custom_message_msg"
-                />
-              </td>
-              <td>
-                <input
-                  className="cl"
-                  type="checkbox"
-                  name="custom_message_log"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="ci">Error</td>
-              <td className="ci">
-                <input
-                  className="ci"
-                  type="text"
-                  size="50"
-                  name="custom_error"
-                  defaultValue="I have an error"
-                />
-              </td>
-              <td>
-                <input className="cl" type="checkbox" name="custom_error_msg" />
-              </td>
-              <td>
-                <input className="cl" type="checkbox" name="custom_error_log" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
-  </div>
-    )
+    return (
+      <div>
+        <div>
+          <p>We have received your LTI Deep Link launch. You can view the JSON below.</p>
+          <span>What would you like to do?</span>
+          <div>
+            <Button
+              variant={"outlined"}
+              onClick={this.createPoll}
+              color={"primary"}>
+              Create Poll
+            </Button>
+          </div>
+        </div>
+
+        <br />
+        <h4>Resource Launch</h4>
+        {verified}
+
+        <b>JWT Header</b>
+        <JSONTree data={this.state.header} hideRoot={true} />
+
+        <b>JWT Body</b>
+        <JSONTree data={this.state.body} hideRoot={true} />
+      </div>
+    );
   }
 }
 
