@@ -61,7 +61,6 @@ class PollSetup extends React.Component {
   addOption(options, nextChoice) {
     console.dir(`addOption <${nextChoice}> ${nextChoice.length}`);
 
-    // TODO Why is this not working?
     if (nextChoice !== undefined && nextChoice.length > 0) {
       options.push(nextChoice);
       this.setState({
