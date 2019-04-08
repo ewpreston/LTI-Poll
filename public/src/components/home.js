@@ -33,17 +33,17 @@ class LaunchEndpoint extends React.Component {
     return (
       <div>
         <HashRouter>
-          <Typography variant="h4" gutterBottom component="h2">
+          <Typography variant="display1" gutterBottom component="h2">
             Welcome to the LTI Polling Tool
           </Typography>
-          <Typography variant="h4" gutterBottom component="h2">
+          <Typography variant="subheading" gutterBottom component="h2">
             Your configuration
+            <p>LTI 1.3 Launch URL: {baseUrl}</p>
+            <p>Blackboard Client ID: {this.state.setupData.applicationId}</p>
           </Typography>
-          <p>LTI 1.3 Launch URL: {baseUrl}</p>
-          <p>Blackboard Client ID: {this.state.setupData.applicationId}</p>
           <br />
           <div>
-            <Button variant={"outlined"} color={"primary"} href={"/testRedis"}>
+            <Button variant={"outlined"} color={"secondary"} href={"/testRedis"}>
               Test Redis
             </Button>
           </div>

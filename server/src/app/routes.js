@@ -274,6 +274,8 @@ module.exports = function(app) {
     setup.applicationId = req.body.applicationId;
     setup.devPortalHost = req.body.devPortalHost;
     redisUtil.redisSave(setup_key, setup);
+    console.log("from post",req.body);
+    console.log("setup", setup);
     res.redirect("#/setup_page");
   });
 

@@ -1,6 +1,4 @@
 import Button from "@material-ui/core/Button";
-import FormGroup from "@material-ui/core/FormGroup";
-import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
 
@@ -20,26 +18,26 @@ class PollSetup extends React.Component {
     // TODO: remove hard coded id
     const pollId = "1234567";
 
-    fetch( `getQuestion?pollId=${pollId}` )
+    fetch(`getQuestion?pollId=${pollId}`)
       .then(res => {
         return res.text();
       })
-    .then(value => {
-      this.setState({
-        question: value
-      })
-    });
-    fetch( `getOptions?pollId=${pollId}` )
+      .then(value => {
+        this.setState({
+          question: value
+        });
+      });
+    fetch(`getOptions?pollId=${pollId}`)
       .then(res => {
         return res.json();
       })
       .then(value => {
         this.setState({
           options: value
-        })
+        });
       });
     this.setState({
-      pollId: pollId,
+      pollId: pollId
     });
   }
 
@@ -95,9 +93,7 @@ class PollSetup extends React.Component {
     const { options } = this.state;
     let container = [];
     options.forEach((choice, index) => {
-      container.push(
-        <div>{choice}</div>
-      );
+      container.push(<div>{choice}</div>);
       /**
              * 1. All loop generated elements require a key
              * 2. only one parent element can be placed in Array
@@ -128,29 +124,30 @@ class PollSetup extends React.Component {
                   onChange={this.handleQuestionChange.bind(this)}
                   InputLabelProps={{
                     shrink: true
-                  }}/>
+                  }}
+                />
               </FormGroup>
-              <div/>
+              <div />
               <div id="container-div">{container}</div>
-              <div/>
+              <div />
             </div>
-          <br/>
+            <br />
             <div>
               <TextField
-                  label={"Choice"}
-                  variant={"outlined"}
-                  placeholder={"Enter Choice"}
-                  value={this.state.newOptions}
-                  onChange={this.handleNewOptionsChange.bind(this)}
-                  InputLabelProps={{
-                    shrink: true
-                  }}/>
+                label={"Choice"}
+                variant={"outlined"}
+                placeholder={"Enter Choice"}
+                value={this.state.newOptions}
+                onChange={this.handleNewOptionsChange.bind(this)}
+                InputLabelProps={{
+                  shrink: true
+                }}
+              />
               <div>
                 <Button
                   onClick={() =>
                     this.addOption(this.state.options, this.state.newOptions)
-                  }
-                >
+                  }>
                   Add Choice
                 </Button>
               </div>
