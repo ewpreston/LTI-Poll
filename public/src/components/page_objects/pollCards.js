@@ -1,12 +1,12 @@
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import IconButton from "@material-ui/core/IconButton";
-import {withStyles} from "@material-ui/core/styles";
-import ToolTip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card/index";
+import CardActionArea from "@material-ui/core/CardActionArea/index";
+import CardActions from "@material-ui/core/CardActions/index";
+import CardContent from "@material-ui/core/CardContent/index";
+import CardMedia from "@material-ui/core/CardMedia/index";
+import IconButton from "@material-ui/core/IconButton/index";
+import { withStyles } from "@material-ui/core/styles/index";
+import ToolTip from "@material-ui/core/Tooltip/index";
+import Typography from "@material-ui/core/Typography/index";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
@@ -36,7 +36,7 @@ function PollCard(props) {
           title="Random Image"
         />
         <CardContent>
-          <Typography gutterBottom variant="headline" component="h2">
+          <Typography gutterBottom variant="h5" component="h2">
             Pool Poll
           </Typography>
           <Typography component="p">

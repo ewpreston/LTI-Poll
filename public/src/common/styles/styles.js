@@ -4,10 +4,18 @@ export const styles = theme => ({
   root: {
     display: "flex"
   },
+  fab: {
+    margin: 0,
+    top: "auto",
+    right: 20,
+    bottom: 20,
+    left: "auto",
+    position: "fixed"
+  },
   absolute: {
-    position: 'absolute',
+    position: "absolute",
     bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 3,
+    right: theme.spacing.unit * 3
   },
   toolbar: {
     paddingRight: 24 // keep right padding when drawer closed

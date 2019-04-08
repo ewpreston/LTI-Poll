@@ -1,7 +1,10 @@
-import {createMuiTheme} from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles/index";
 
 export const darkMode = createMuiTheme({
   id: 0,
+  typography: {
+    useNextVariants: true
+  },
   palette: {
     type: "dark",
     primary: {
@@ -25,6 +28,9 @@ export const darkMode = createMuiTheme({
 
 export const lightMode = createMuiTheme({
   id: 1,
+  typography: {
+    useNextVariants: true
+  },
   palette: {
     primary: {
       main: "#616161",
