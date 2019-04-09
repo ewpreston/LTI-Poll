@@ -1,9 +1,9 @@
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button/index";
+import TextField from "@material-ui/core/TextField/index";
+import Typography from "@material-ui/core/Typography/index";
 import Faker from "faker";
-import React, {Component} from "react";
-import SimpleSnackbar from "./snackbar";
+import React, { Component } from "react";
+import { openSnackbar } from "../page_objects/snackbar";
 
 let randomText = Faker.lorem.lines(25);
 let randomGuid = Faker.random.uuid();
@@ -12,8 +12,13 @@ let randomHost = Faker.internet.url();
 class SetupView extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-
+    this.state = {
+      applicationId: "",
+      privateKey: "",
+      devPortalHost: "",
+      issuer: "",
+      tokenEndPoint: ""
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -21,21 +26,30 @@ class SetupView extends Component {
   componentDidMount() {
     fetch("setupData")
       .then(result => result.json())
-      .then(setupData => {
-        if (setupData) {
-          this.setState({
-            privateKey: setupData.privateKey,
-            tokenEndPoint: setupData.tokenEndPoint,
-            issuer: setupData.issuer,
-            applicationId: setupData.applicationId,
-            devPortalHost: setupData.devPortalHost
-          });
-        }
+      .then(result => {
+        this.setState({
+          privateKey: result.privateKey,
+          applicationId: result.applicationId,
+          devPortalHost: result.devPortalHost,
+          issuer: result.issuer,
+          tokenEndPoint: result.tokenEndPoint
+        });
       });
   }
 
   handleSubmit() {
-    return <SimpleSnackbar />;
+    const data = new URLSearchParams(this.state);
+    let setupData = JSON.stringify(this.state);
+    console.log("body", setupData);
+    fetch("/saveSetup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: data
+    }).then(result => {
+      if (result.status === 200) openSnackbar({ message: "Settings saved!" });
+    });
   }
 
   handleChange(event) {
@@ -45,17 +59,11 @@ class SetupView extends Component {
   render() {
     return (
       <div>
-        <form
-          action="/saveSetup"
-          method="post"
-          encType="application/x-www-form-urlencoded"
-          onSubmit={this.handleSubmit}
-            >
-          <Typography variant="h4" gutterBottom component="h2">
-            LTI Advantage Settings
-          </Typography>
-          <br />
-          <br />
+        <Typography variant="h4" gutterBottom component="h2">
+          LTI Advantage Settings
+        </Typography>
+        <br />
+        <form id={"setupForm"}>
           <TextField
             required
             label="Developer Portal URL"
@@ -65,8 +73,9 @@ class SetupView extends Component {
             InputLabelProps={{
               shrink: true
             }}
-            //value={this.state.devPortalHost}
-            onChange={this.handleChange}
+            name={"devPortalHost"}
+            value={this.state.devPortalHost || ""}
+            onInput={this.handleChange}
           />
           <br />
           <br />
@@ -79,8 +88,9 @@ class SetupView extends Component {
             InputLabelProps={{
               shrink: true
             }}
-            //value={this.state.applicationId}
-            onChange={this.handleChange}
+            name={"applicationId"}
+            value={this.state.applicationId || ""}
+            onInput={this.handleChange}
           />
           <br />
           <br />
@@ -88,13 +98,14 @@ class SetupView extends Component {
             required
             label="OAuth2 Token End Point"
             variant="outlined"
-            placeholder="https://token.com"
+            placeholder={randomHost}
             fullWidth={true}
             InputLabelProps={{
               shrink: true
             }}
-            //value={this.state.tokenEndPoint}
-            onChange={this.handleChange}
+            name={"tokenEndPoint"}
+            value={this.state.tokenEndPoint || ""}
+            onInput={this.handleChange}
           />
           <br />
           <br />
@@ -107,8 +118,9 @@ class SetupView extends Component {
             InputLabelProps={{
               shrink: true
             }}
-            //value={this.state.issuer}
-            onChange={this.handleChange}
+            name={"issuer"}
+            value={this.state.issuer || ""}
+            onInput={this.handleChange}
           />
           <br />
           <br />
@@ -123,12 +135,17 @@ class SetupView extends Component {
             InputLabelProps={{
               shrink: true
             }}
-            //value={this.state.privateKey}
-            onChange={this.handleChange}
+            name={"privateKey"}
+            value={this.state.privateKey || ""}
+            onInput={this.handleChange}
           />
           <br />
           <br />
-          <Button variant="contained" color="secondary" onChange={this.handleSubmit}>
+          <Button
+            id={"save_button"}
+            variant="contained"
+            color="secondary"
+            onClick={this.handleSubmit}>
             Save
           </Button>
         </form>

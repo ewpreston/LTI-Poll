@@ -1,6 +1,6 @@
+import Button from "@material-ui/core/Button/index";
 import React from "react";
 import JSONTree from "react-json-tree";
-import Button from "@material-ui/core/Button";
 
 class DeepLinkOptions extends React.Component {
   constructor(props) {
@@ -43,7 +43,10 @@ class DeepLinkOptions extends React.Component {
     return (
       <div>
         <div>
-          <p>We have received your LTI Deep Link launch. You can view the JSON below.</p>
+          <p>
+            We have received your LTI Deep Link launch. You can view the JSON
+            below.
+          </p>
           <span>What would you like to do?</span>
           <div>
             <Button

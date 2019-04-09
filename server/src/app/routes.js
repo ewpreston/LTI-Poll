@@ -1,9 +1,15 @@
 import path from "path";
-import {AGPayload, ContentItem, JWTPayload, NRPayload, SetupParameters} from "../common/restTypes";
+import {
+  AGPayload,
+  ContentItem,
+  JWTPayload,
+  NRPayload,
+  SetupParameters
+} from "../common/restTypes";
 import config from "../config/config";
 import assignGrades from "./assign-grades";
-import {default as content_item} from "./content-item";
-import {deepLink, deepLinkContent} from "./deep-linking";
+import { default as content_item } from "./content-item";
+import { deepLink, deepLinkContent } from "./deep-linking";
 import lti from "./lti";
 import ltiAdv from "./lti-adv";
 import namesRoles from "./names-roles";
@@ -284,13 +290,21 @@ module.exports = function(app) {
   //   fetch( "getQuestion?pollId=<id>" )
 
   app.get("/getQuestion", (req, res) => {
-    redisUtil.loadPollQuestion(req.query.pollId).then( (question) => { res.send(question) }); });
+    redisUtil.loadPollQuestion(req.query.pollId).then(question => {
+      res.send(question);
+    });
+  });
 
   app.get("/getOptions", (req, res) => {
-    redisUtil.loadPollOptions(req.query.pollId).then( (options) => { res.send(options) }); });
+    redisUtil.loadPollOptions(req.query.pollId).then(options => {
+      res.send(options);
+    });
+  });
 
   app.get("/getResults", (req, res) => {
-    redisUtil.loadPollResults(req.query.pollId).then( (results) => { res.send(results); });
+    redisUtil.loadPollResults(req.query.pollId).then(results => {
+      res.send(results);
+    });
   });
 
   //=======================================================
@@ -301,22 +315,28 @@ module.exports = function(app) {
     let pollId = "1234567";
 
     redisUtil.savePollQuestion(pollId, "What is your favorite color");
-    redisUtil.loadPollQuestion(pollId).then((question) => { console.log(question); });
+    redisUtil.loadPollQuestion(pollId).then(question => {
+      console.log(question);
+    });
 
     redisUtil.savePollOptions(pollId, ["Red", "Blue", "Purple", "Yellow"]);
-    redisUtil.loadPollOptions(pollId).then( (options) => { console.log(options); });
+    redisUtil.loadPollOptions(pollId).then(options => {
+      console.log(options);
+    });
 
     redisUtil.savePollAnswer(pollId, Math.floor(Math.random() * 4));
-    redisUtil.loadPollResults(pollId).then( (results) => { console.log(results); });
+    redisUtil.loadPollResults(pollId).then(results => {
+      console.log(results);
+    });
 
     res.send("<html><body>1</body></html>");
   });
 
   //=======================================================
   // Poll
-  app.post('/pollSetup', (req, res) => {
-    console.log('--------------------\npollSetup');
-    res.redirect('#/poll_setup');
+  app.post("/pollSetup", (req, res) => {
+    console.log("--------------------\npollSetup");
+    res.redirect("#/pollSetup");
   });
 
   //=======================================================

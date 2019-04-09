@@ -1,9 +1,11 @@
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Snackbar from "@material-ui/core/Snackbar";
-import {withStyles} from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button/index";
+import IconButton from "@material-ui/core/IconButton/index";
+import Snackbar from "@material-ui/core/Snackbar/index";
+import { withStyles } from "@material-ui/core/styles/index";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
+
+let openSnackbarFn;
 
 const styles = theme => ({
   close: {
@@ -13,23 +15,36 @@ const styles = theme => ({
 
 class SimpleSnackbar extends React.Component {
   state = {
-    open: false
+    open: false,
+    message: ""
   };
 
-  handleClick = () => {
-    this.setState({ open: true });
+  openSnackbar = ({ message }) => {
+    this.setState({
+      open: true,
+      message
+    });
   };
+
+  componentDidMount() {
+    openSnackbarFn = this.openSnackbar;
+  }
 
   handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
 
-    this.setState({ open: false });
+    this.setState({ open: false, message: "" });
   };
 
   render() {
-    const { classes } = this.props;
+    const message = (
+      <span
+        id="snackbar-message-id"
+        dangerouslySetInnerHTML={{ __html: this.state.message }}
+      />
+    );
     return (
       <div>
         <Snackbar
@@ -43,7 +58,10 @@ class SimpleSnackbar extends React.Component {
           ContentProps={{
             "aria-describedby": "message-id"
           }}
-          message={<span id="message-id">Note archived</span>}
+          SnackbarContentProps={{
+            "aria-describedby": "snackbar-message-id"
+          }}
+          message={message}
           action={[
             <Button
               key="undo"
@@ -64,6 +82,10 @@ class SimpleSnackbar extends React.Component {
       </div>
     );
   }
+}
+
+export function openSnackbar({ message }) {
+  openSnackbarFn({ message });
 }
 
 export default withStyles(styles)(SimpleSnackbar);

@@ -1,7 +1,6 @@
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button/index";
+import Typography from "@material-ui/core/Typography/index";
 import React from "react";
-import {HashRouter} from "react-router-dom";
 
 class LaunchEndpoint extends React.Component {
   constructor(props) {
@@ -32,22 +31,20 @@ class LaunchEndpoint extends React.Component {
 
     return (
       <div>
-        <HashRouter>
-          <Typography variant="h4" gutterBottom component="h2">
-            Welcome to the LTI Polling Tool
-          </Typography>
-          <Typography variant="h4" gutterBottom component="h2">
-            Your configuration
-          </Typography>
+        <Typography variant="h4" gutterBottom component="h2">
+          Welcome to the LTI Polling Tool
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom component="h2">
+          Your configuration
           <p>LTI 1.3 Launch URL: {baseUrl}</p>
           <p>Blackboard Client ID: {this.state.setupData.applicationId}</p>
-          <br />
-          <div>
-            <Button variant={"outlined"} color={"primary"} href={"/testRedis"}>
-              Test Redis
-            </Button>
-          </div>
-        </HashRouter>
+        </Typography>
+        <br />
+        <div>
+          <Button variant={"outlined"} color={"secondary"} href={"/testRedis"}>
+            Test Redis
+          </Button>
+        </div>
       </div>
     );
   }
