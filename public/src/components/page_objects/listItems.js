@@ -2,13 +2,12 @@ import Divider from "@material-ui/core/Divider/index";
 import ListItem from "@material-ui/core/ListItem/index";
 import ListItemIcon from "@material-ui/core/ListItemIcon/index";
 import ListItemText from "@material-ui/core/ListItemText/index";
-import AddIcon from "@material-ui/icons/AddOutlined";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import PollIcon from "@material-ui/icons/CheckBoxOutlined";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import CourseIcon from "@material-ui/icons/GroupOutlined";
 import SettingsIcon from "@material-ui/icons/Settings";
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -42,11 +41,6 @@ export const fullListItems = (
       icon={<DashboardIcon color={"secondary"} />}
     />
     <ListItemLink
-      icon={<AddIcon color={"secondary"} />}
-      primary={"New Poll"}
-      to={"/pollSetup"}
-    />
-    <ListItemLink
       to="/polls"
       primary="Polls"
       icon={<PollIcon color={"secondary"} />}
@@ -76,11 +70,6 @@ export const participantList = (
       to="/home"
       primary="Home"
       icon={<DashboardIcon color={"secondary"} />}
-    />
-    <ListItemLink
-      icon={<AddIcon color={"secondary"} />}
-      primary={"New Poll"}
-      to={"/pollSetup"}
     />
     <ListItemLink
       to="/polls"
